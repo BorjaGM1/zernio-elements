@@ -1,15 +1,28 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
-import { Analytics, Calendar, Composer, ConnectAccounts, Inbox, ZernioProvider, cn, useComposer } from "@zernio-elements/react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Analytics, Calendar, Composer, ConnectAccounts, Inbox, ZernioProvider, cn, useAccounts, useComposer } from "@zernio-elements/react";
 import { BRANDS, type Brand } from "@/lib/brands";
 
 const TABS = ["Compose", "Calendar", "Inbox", "Analytics", "Accounts"] as const;
 type Tab = (typeof TABS)[number];
 
-function Suite({ brand, tab }: { brand: Brand; tab: Tab }) {
+/** On demo data the composer opens with these accounts picked, so the previews are there on first load. */
+const DEMO_PICKED = ["twitter", "bluesky", "linkedin", "instagram"];
+
+function Suite({ brand, tab, live }: { brand: Brand; tab: Tab; live: boolean | null }) {
   // key={brand.id} on the parent resets the draft per brand
   const composer = useComposer({ content: brand.draft, media: [{ url: brand.media.url, type: "image", width: brand.media.width, height: brand.media.height }] });
+  // Never on real accounts: there, picking where a post goes stays the person's own click.
+  const accounts = useAccounts();
+  const picked = useRef(false);
+  useEffect(() => {
+    if (live !== false || picked.current || !accounts.data) return;
+    picked.current = true;
+    composer.setTargets(
+      accounts.data.filter((a) => DEMO_PICKED.includes(a.platform)).map((a) => ({ platform: a.platform as (typeof composer.targets)[number]["platform"], accountId: a._id })),
+    );
+  }, [live, accounts.data, composer]);
   return (
     <>
       {/* Keep the composer mounted so switching tabs never loses the draft. */}
@@ -28,6 +41,13 @@ export function Demo() {
   const [brandId, setBrandId] = useState<Brand["id"]>("hostly");
   const [tab, setTab] = useState<Tab>("Compose");
   const brand = BRANDS.find((b) => b.id === brandId)!;
+  const [live, setLive] = useState<boolean | null>(null);
+  useEffect(() => {
+    fetch("/api/demo/mode")
+      .then((r) => r.json())
+      .then((d: { live: boolean }) => setLive(d.live))
+      .catch(() => setLive(false));
+  }, []);
 
   // Deep links: /?brand=ferment&tab=Inbox
   useEffect(() => {
@@ -41,10 +61,10 @@ export function Demo() {
   const Shell = SHELLS[brand.id];
   return (
     <div data-ze-theme={brand.id} className="flex min-h-screen flex-col bg-[var(--ze-surface)] text-[var(--ze-fg)] [font-family:var(--ze-font)]">
-      <DemoBar brandId={brand.id} onBrand={setBrandId} />
+      <DemoBar brandId={brand.id} onBrand={setBrandId} live={live} />
       <ZernioProvider key={brand.id}>
         <Shell brand={brand} tab={tab} onTab={setTab}>
-          <Suite brand={brand} tab={tab} />
+          <Suite brand={brand} tab={tab} live={live} />
         </Shell>
       </ZernioProvider>
     </div>
@@ -52,14 +72,7 @@ export function Demo() {
 }
 
 /** Outside the products: the demo's own control strip. Deliberately neutral so it never reads as part of a brand. */
-function DemoBar({ brandId, onBrand }: { brandId: Brand["id"]; onBrand: (id: Brand["id"]) => void }) {
-  const [live, setLive] = useState<boolean | null>(null);
-  useEffect(() => {
-    fetch("/api/demo/mode")
-      .then((r) => r.json())
-      .then((d: { live: boolean }) => setLive(d.live))
-      .catch(() => setLive(false));
-  }, []);
+function DemoBar({ brandId, onBrand, live }: { brandId: Brand["id"]; onBrand: (id: Brand["id"]) => void; live: boolean | null }) {
   return (
     <div className="flex h-10 shrink-0 items-center justify-between gap-4 bg-[#111] px-4 font-[system-ui] text-[12px] text-[#bbb]">
       <div className="flex items-center gap-3">
