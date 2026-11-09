@@ -4,7 +4,6 @@
 
 | What | URL | What to look at |
 | --- | --- | --- |
-| Demo video (2:45) | https://zernio-elements.vercel.app/zernio-elements-demo.mp4 | The three blocks, then the same blocks in a product, in Claude and in generated views. |
 | MCP App docs and how to add the connector | https://zernio-elements-docs.vercel.app/agents/mcp-app | How the hash binds approval to the payload; env vars; "Try the demo" and "Run your own". |
 | Try the MCP App in Claude | https://zernio-elements-mcp.vercel.app/mcp | Add it as a custom connector (Settings → Connectors). Sample accounts and data; Publish is simulated, nothing is posted. Real accounts use a private `/mcp/<token>` URL. |
 | Embeddable demo, 3 brands | https://zernio-elements.vercel.app | Hostly, Ferment, Liftly: same components, three themes. Public visitors see demo data. |
