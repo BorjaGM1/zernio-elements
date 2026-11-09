@@ -1,0 +1,32 @@
+{
+  "name": "mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3020",
+    "build": "next build",
+    "start": "next start -p 3020",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf .next .turbo"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/ext-apps": "2.0.4",
+    "@modelcontextprotocol/server": "2.4.0",
+    "@zernio-elements/rules": "workspace:*",
+    "@zernio-elements/server": "workspace:*",
+    "next": "^16.4.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.2.0",
+    "@zernio-elements/widgets": "workspace:*",
+    "@zernio-elements/catalog": "workspace:*"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

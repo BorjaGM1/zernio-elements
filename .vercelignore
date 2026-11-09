@@ -1,0 +1,13 @@
+node_modules
+**/node_modules
+.next
+**/.next
+.turbo
+**/.turbo
+.claude
+coverage
+**/*.tsbuildinfo
+.env*
+**/.env*
+!.env.example
+**/screenshots

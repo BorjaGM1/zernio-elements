@@ -1,0 +1,36 @@
+{
+  "name": "docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "registry": "node --experimental-strip-types --no-warnings scripts/build-registry.ts",
+    "predev": "pnpm run registry",
+    "dev": "next dev -p 3001",
+    "prebuild": "pnpm run registry",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .next .turbo public/r public/llms.txt"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.0",
+    "@zernio-elements/catalog": "workspace:*",
+    "@zernio-elements/react": "workspace:*",
+    "@zernio-elements/rules": "workspace:*",
+    "@zernio-elements/server": "workspace:*",
+    "next": "^16.4.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "shiki": "^3.13.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

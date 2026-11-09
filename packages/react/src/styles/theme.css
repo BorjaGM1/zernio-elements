@@ -1,0 +1,38 @@
+/*
+ * Zernio Elements design tokens. Every component reads only these variables,
+ * so a white-label theme is just a different set of values.
+ * Apply a theme with data-ze-theme="<name>" on any ancestor, or override the vars yourself.
+ */
+:root,
+[data-ze-theme="default"] {
+  /* Surfaces: bg is the card, surface sits behind cards, fill is hover/selected/inset. */
+  --ze-bg: #ffffff;
+  --ze-surface: #f6f6f5;
+  --ze-fill: #efefed;
+  --ze-fg: #111111;
+  --ze-muted: #6b6b68;
+  --ze-border: #e4e4e1;
+  --ze-border-strong: #c9c9c5;
+
+  --ze-primary: #111111;
+  --ze-primary-fg: #ffffff;
+  --ze-focus: #2f6fed;
+
+  --ze-danger: #c4321f;
+  --ze-warning: #9a6200;
+  --ze-info: #2d5bd1;
+  --ze-success: #1f7a4d;
+
+  --ze-radius: 8px;
+  --ze-radius-sm: 6px;
+  --ze-shadow: 0 1px 0 rgb(0 0 0 / 0.03);
+
+  --ze-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ze-font-display: var(--ze-font);
+  --ze-font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  /* Section headings: weight, case and tracking are part of a brand's voice. */
+  --ze-heading-weight: 600;
+  --ze-heading-transform: none;
+  --ze-heading-tracking: -0.01em;
+  --ze-heading-size: 15px;
+}

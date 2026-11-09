@@ -1,0 +1,40 @@
+{
+  "name": "@zernio-elements/catalog",
+  "version": "0.0.1",
+  "description": "json-render catalog of Zernio Elements: generative UI built only from tested components.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "screenshots": "node scripts/screenshots.mjs",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@json-render/core": "0.22.0",
+    "@json-render/react": "0.22.0",
+    "@zernio-elements/react": "workspace:*",
+    "@zernio-elements/rules": "workspace:*",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.90.0",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "playwright": "^1.65.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.12"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "zernio-elements",
+  "private": true,
+  "description": "Plug-and-play UI + logic for the Zernio API. shadcn-style components, headless hooks, and a per-platform rules engine.",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "turbo run dev --filter=web...",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@zernio/node": "0.2.1548",
+    "turbo": "^2.11.10",
+    "typescript": "^5.9.0"
+  }
+}

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+@import "@zernio-elements/react/theme.css";
+
+/* Tailwind must scan the library so its classes are generated. */
+@source "../../../packages/react/src";
+@source "../../../packages/catalog/src";
+
+/*
+ * Three fictional SaaS products embedding the same components.
+ * The whole white-label story is these three blocks of variables.
+ */
+
+/* Hostly: warm, roomy, hospitable. */
+[data-ze-theme="hostly"] {
+  --ze-bg: #ffffff;
+  --ze-surface: #f6f1ea;
+  --ze-fill: #efe7dc;
+  --ze-fg: #2b211b;
+  --ze-muted: #85766a;
+  --ze-border: #ebe2d6;
+  --ze-border-strong: #d8cbbb;
+  --ze-primary: #c8502a;
+  --ze-primary-fg: #ffffff;
+  --ze-focus: #c8502a;
+  --ze-success: #2f7a4f;
+  --ze-info: #3d6aa8;
+  --ze-radius: 14px;
+  --ze-radius-sm: 10px;
+  --ze-shadow: 0 1px 2px rgb(60 40 20 / 0.05);
+  --ze-font: var(--font-dm-sans), system-ui, sans-serif;
+  --ze-font-display: var(--font-dm-sans), system-ui, sans-serif;
+  --ze-heading-weight: 600;
+  --ze-heading-size: 16px;
+}
+
+/* Ferment: a dark, quiet, editorial room. Serif display, brass accent, square-ish corners. */
+[data-ze-theme="ferment"] {
+  --ze-bg: #1a1714;
+  --ze-surface: #12100e;
+  --ze-fill: #26221d;
+  --ze-fg: #eee6d8;
+  --ze-muted: #9c9180;
+  --ze-border: #2e2924;
+  --ze-border-strong: #453e35;
+  --ze-primary: #c9a25a;
+  --ze-primary-fg: #15120f;
+  --ze-focus: #c9a25a;
+  --ze-danger: #e2735f;
+  --ze-warning: #d9a440;
+  --ze-info: #8fb0d8;
+  --ze-success: #8cbf8a;
+  --ze-radius: 3px;
+  --ze-radius-sm: 2px;
+  --ze-shadow: none;
+  --ze-font: var(--font-work-sans), system-ui, sans-serif;
+  --ze-font-display: var(--font-newsreader), Georgia, serif;
+  --ze-heading-weight: 500;
+  --ze-heading-size: 21px;
+  --ze-heading-tracking: -0.005em;
+  color-scheme: dark;
+}
+
+/* Liftly: loud, dense, athletic. Condensed caps, hard edges, acid accent on ink. */
+[data-ze-theme="liftly"] {
+  --ze-bg: #ffffff;
+  --ze-surface: #ededea;
+  --ze-fill: #e3e3df;
+  --ze-fg: #0b0b0b;
+  --ze-muted: #62625d;
+  --ze-border: #d6d6d1;
+  --ze-border-strong: #0b0b0b;
+  --ze-primary: #0b0b0b;
+  --ze-primary-fg: #d4ff3a;
+  --ze-focus: #0b0b0b;
+  --ze-radius: 0px;
+  --ze-radius-sm: 0px;
+  --ze-shadow: none;
+  --ze-font: var(--font-archivo), system-ui, sans-serif;
+  --ze-font-display: var(--font-archivo), system-ui, sans-serif;
+  --ze-font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --ze-heading-weight: 800;
+  --ze-heading-transform: uppercase;
+  --ze-heading-tracking: 0.02em;
+  --ze-heading-size: 15px;
+}
+
+[data-ze-theme="liftly"] .ze-heading {
+  font-stretch: 75%;
+}
+
+[data-ze-theme="liftly"] .tabular-nums {
+  font-family: var(--ze-font-mono);
+}
+
+body {
+  background: var(--ze-surface);
+  color: var(--ze-fg);
+  font-family: var(--ze-font);
+}

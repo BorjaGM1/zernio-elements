@@ -1,0 +1,19 @@
+{
+  "name": "@zernio-elements/server",
+  "version": "0.0.1",
+  "description": "Server handler for Zernio Elements: keeps the API key server-side, scopes every call to the current tenant's profile, serves fixtures in mock mode.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.0"
+  }
+}

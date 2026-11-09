@@ -1,0 +1,117 @@
+@import "tailwindcss";
+/* PostPreview and the ui.tsx primitives carry their classes in packages/react. */
+@source "../../react/src";
+/* render-view draws json-render specs with the catalog blocks. */
+@source "../../catalog/src";
+@source "./";
+
+/*
+ * Theming: the host wins. The ext-apps SDK sets the host's style variables (--color-*, --font-*,
+ * --border-radius-*) on <html> and the theme as data-theme + color-scheme. We map them onto the kit's
+ * --ze-* tokens; the --zd-* values are our own calm defaults for hosts that send nothing.
+ */
+:root {
+  --zd-bg: #ffffff;
+  --zd-surface: #f8f8f6;
+  --zd-fill: #f0efec;
+  --zd-fg: #1a1a18;
+  --zd-muted: #6f6e69;
+  --zd-border: #e5e4e0;
+  --zd-border-strong: #cfcdc7;
+  --zd-focus: #2f6fed;
+  --zd-danger: #b8382a;
+  --zd-warning: #8a5a00;
+  --zd-info: #2d5bd1;
+  --zd-success: #24774b;
+}
+
+:root[data-theme="dark"] {
+  --zd-bg: #262624;
+  --zd-surface: #1f1f1d;
+  --zd-fill: #33332f;
+  --zd-fg: #f3f2ee;
+  --zd-muted: #a3a29b;
+  --zd-border: #3a3935;
+  --zd-border-strong: #4f4e49;
+  --zd-focus: #6f9cf5;
+  --zd-danger: #ef7a68;
+  --zd-warning: #e0b155;
+  --zd-info: #8fb0f7;
+  --zd-success: #6cc28f;
+}
+
+/* Opened outside a host (or before the host sends a theme): follow the OS. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --zd-bg: #262624;
+    --zd-surface: #1f1f1d;
+    --zd-fill: #33332f;
+    --zd-fg: #f3f2ee;
+    --zd-muted: #a3a29b;
+    --zd-border: #3a3935;
+    --zd-border-strong: #4f4e49;
+    --zd-focus: #6f9cf5;
+    --zd-danger: #ef7a68;
+    --zd-warning: #e0b155;
+    --zd-info: #8fb0f7;
+    --zd-success: #6cc28f;
+    color-scheme: dark;
+  }
+}
+
+:root {
+  --ze-bg: var(--color-background-primary, var(--zd-bg));
+  --ze-surface: var(--color-background-secondary, var(--zd-surface));
+  --ze-fill: var(--color-background-tertiary, var(--zd-fill));
+  --ze-fg: var(--color-text-primary, var(--zd-fg));
+  --ze-muted: var(--color-text-secondary, var(--zd-muted));
+  --ze-border: var(--color-border-secondary, var(--zd-border));
+  --ze-border-strong: var(--color-border-primary, var(--zd-border-strong));
+
+  /* Inverse primary (fg on bg) reads as native in any host palette. */
+  --ze-primary: var(--color-text-primary, var(--zd-fg));
+  --ze-primary-fg: var(--color-background-primary, var(--zd-bg));
+  --ze-focus: var(--color-ring-primary, var(--zd-focus));
+
+  --ze-danger: var(--color-text-danger, var(--zd-danger));
+  --ze-warning: var(--color-text-warning, var(--zd-warning));
+  --ze-info: var(--color-text-info, var(--zd-info));
+  --ze-success: var(--color-text-success, var(--zd-success));
+
+  --ze-radius: var(--border-radius-lg, 10px);
+  --ze-radius-sm: var(--border-radius-md, 7px);
+  --ze-shadow: none;
+
+  --ze-font: var(--font-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif);
+  --ze-font-display: var(--ze-font);
+  --ze-font-mono: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  --ze-heading-weight: 600;
+  --ze-heading-transform: none;
+  --ze-heading-tracking: -0.005em;
+  --ze-heading-size: 14px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  /*
+   * Solid host background (flush inside the host's card). Not transparent: when the iframe element's
+   * color-scheme differs from ours, Chrome paints an opaque default canvas behind a transparent page.
+   */
+  background: var(--ze-bg);
+  color: var(--ze-fg);
+  font-family: var(--ze-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Vertical video previews (9:16) stay small so the inline widget doesn't grow tall. */
+.ze-vertical-cap .aspect-\[9\/16\] {
+  max-width: 170px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--ze-focus) 25%, transparent);
+}
