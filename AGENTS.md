@@ -49,8 +49,9 @@ Each package and app has a short README with its entry points and test command.
 - The server is stateless and answers `subscriptions/listen` with method-not-found (an open SSE stream would be
   cut by the platform at 60s). Logs are one `[mcp]` line per request, never arguments or the token.
 - Platforms the profile has no account for render as **preview-only**: shown, never published, never blocking.
-- Security: the MCP URL publishes to real accounts. Every request needs `MCP_TOKEN`, and publishing also needs
-  `MCP_ALLOW_PUBLISH=1`. Never an open endpoint that publishes.
+- Security: the real server publishes to real accounts. It needs `MCP_TOKEN` (`/mcp/<token>` or Bearer), and
+  publishing also needs `MCP_ALLOW_PUBLISH=1`. `/mcp` with no Authorization header is the public demo: `demoConfig()`
+  builds it from an empty environment, so it has no key and only ever answers from fixtures. Never an open endpoint that publishes.
 
 ## Commands
 

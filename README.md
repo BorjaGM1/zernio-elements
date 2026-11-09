@@ -4,8 +4,8 @@
 
 | What | URL | What to look at |
 | --- | --- | --- |
-| MCP App docs and how to add the connector | https://zernio-elements-docs.vercel.app/agents/mcp-app | How the hash binds approval to the payload; env vars; "Add it to Claude". |
-| MCP server | https://zernio-elements-mcp.vercel.app | The deployed server. The endpoint is `/mcp/<token>`; the token is private and never printed. |
+| MCP App docs and how to add the connector | https://zernio-elements-docs.vercel.app/agents/mcp-app | How the hash binds approval to the payload; env vars; "Try the demo" and "Run your own". |
+| Try the MCP App in Claude | https://zernio-elements-mcp.vercel.app/mcp | Add it as a custom connector (Settings → Connectors). Sample accounts and data; Publish is simulated, nothing is posted. Real accounts use a private `/mcp/<token>` URL. |
 | Embeddable demo, 3 brands | https://zernio-elements.vercel.app | Hostly, Ferment, Liftly: same components, three themes. Public visitors see demo data. |
 | The whole frontend in one file | https://zernio-elements.vercel.app/six-lines | One component file and one API route, shown beside the running page. |
 | Generative UI (json-render) | https://zernio-elements.vercel.app/compose · https://zernio-elements-docs.vercel.app/agents/generative-ui | A model composes views only from the 11-component catalog; invalid specs are rejected. |

@@ -1,6 +1,6 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { createMcpHandler } from "@modelcontextprotocol/server";
-import { configFromEnv, type Config } from "./config";
+import { configFromEnv, demoConfig, type Config } from "./config";
 import { createMcpServer } from "./server";
 import { zernioClient } from "./zernio";
 
@@ -18,18 +18,27 @@ const bearer = (req: Request) => req.headers.get("authorization")?.match(/^Beare
  * The whole server: auth in front of a stateless Streamable HTTP MCP endpoint.
  * - `pathToken` is the token from the URL (/mcp/<token>), for clients that only take a URL (Claude custom connectors).
  *   A wrong one is a 404: the URL simply doesn't exist.
- * - Without a path token, `Authorization: Bearer <token>` is required (401 otherwise).
- * Nothing (not even tools/list) is served before the token checks out.
+ * - Without a path token, `Authorization: Bearer <token>` reaches the real server (a wrong one is a 401).
+ * - With no path token and no Authorization header at all, the request goes to the public demo (`demo`):
+ *   the same tools on fixtures, never Zernio. Pass `null` to turn the demo off.
+ * Nothing real (not even tools/list) is served before the token checks out.
  */
-export function createHandler(config: Config = configFromEnv()) {
-  const zernio = zernioClient(config);
-  const mcp = createMcpHandler(() => createMcpServer(config, zernio), { legacy: "stateless" });
+export function createHandler(config: Config = configFromEnv(), demo: Config | null = demoConfig()) {
+  const serve = (cfg: Config) => {
+    const zernio = zernioClient(cfg);
+    return createMcpHandler(() => createMcpServer(cfg, zernio), { legacy: "stateless" });
+  };
+  const real = serve(config);
+  const demoMcp = demo ? serve(demo) : null;
 
   return async function handle(req: Request, pathToken?: string): Promise<Response> {
+    let mcp = real;
     if (pathToken !== undefined) {
       if (!tokenMatches(pathToken, config.token) && !tokenMatches(bearer(req), config.token)) {
         return Response.json({ error: "Not found" }, { status: 404 });
       }
+    } else if (demoMcp && !req.headers.has("authorization")) {
+      mcp = demoMcp;
     } else if (!tokenMatches(bearer(req), config.token)) {
       return Response.json({ error: "Unauthorized" }, { status: 401, headers: { "WWW-Authenticate": "Bearer" } });
     }
@@ -49,7 +58,7 @@ export function createHandler(config: Config = configFromEnv()) {
       return Response.json({ jsonrpc: "2.0", id: listen.id ?? null, error: { code: -32601, message: "Method not found: this server sends no notifications" } });
     }
     const res = await mcp.fetch(req);
-    console.log(`[mcp] ${label} ${peek.length}B -> ${res.status} ${res.headers.get("content-type") ?? ""} in ${Date.now() - started}ms`);
+    console.log(`[mcp${mcp === demoMcp ? ":demo" : ""}] ${label} ${peek.length}B -> ${res.status} ${res.headers.get("content-type") ?? ""} in ${Date.now() - started}ms`);
     return res;
   };
 }

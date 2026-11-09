@@ -175,7 +175,15 @@ export default function McpAppPage() {
         </ul>
       </Section>
 
-      <Section title="Add it to Claude">
+      <Section title="Try the demo">
+        <p>
+          In Claude, open <strong className="font-medium text-fg">Settings → Connectors → Add custom connector</strong> and paste the demo
+          URL. It serves every tool and widget on sample accounts and data: Publish is simulated, nothing reaches Zernio and nothing is posted.
+        </p>
+        <CodeBlock code="https://zernio-elements-mcp.vercel.app/mcp" lang="bash" title="Demo connector URL" />
+      </Section>
+
+      <Section title="Run your own">
         <ol className="list-decimal space-y-2.5 pl-5 text-fg-2 marker:text-muted">
           <li>
             Deploy <code>apps/mcp</code> (a Next.js app; on Vercel, set the project root to <code>apps/mcp</code>) with the environment

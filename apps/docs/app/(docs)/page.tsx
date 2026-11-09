@@ -24,7 +24,7 @@ const DEMO = "https://zernio-elements.vercel.app";
 /** Every public URL of the project, in the order a reviewer should look. Mirrored in README.md and llms.txt. */
 const LINKS: { label: string; href: string; note: string }[] = [
   { label: "MCP App docs and connector setup", href: "/agents/mcp-app", note: "How the hash binds approval to the payload; add it to Claude." },
-  { label: "MCP server", href: "https://zernio-elements-mcp.vercel.app", note: "The endpoint is /mcp/<token>; the token is private." },
+  { label: "MCP server", href: "https://zernio-elements-mcp.vercel.app", note: "Try it in Claude: add https://zernio-elements-mcp.vercel.app/mcp as a custom connector (sample data, nothing is posted)." },
   { label: "Embeddable demo, 3 brands", href: DEMO, note: "Same components, three themes. Public visitors see demo data." },
   { label: "The whole frontend in one file", href: `${DEMO}/six-lines`, note: "One component file and one API route." },
   { label: "Generative UI", href: `${DEMO}/compose`, note: "A model composes views from the catalog; see /agents/generative-ui." },

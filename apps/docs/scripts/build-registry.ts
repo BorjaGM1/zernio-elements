@@ -275,7 +275,7 @@ function llmsTxt(items: RegistryItem[], base: string): string {
     "## Links",
     "",
     `- MCP App docs and connector setup: ${base}/agents/mcp-app`,
-    "- MCP server: https://zernio-elements-mcp.vercel.app (the endpoint is /mcp/<token>; the token is private)",
+    "- MCP server: https://zernio-elements-mcp.vercel.app (public demo connector: https://zernio-elements-mcp.vercel.app/mcp, sample data, nothing is posted; real accounts use /mcp/<token>)",
     "- Embeddable demo, 3 brands: https://zernio-elements.vercel.app (public visitors see demo data)",
     "- The whole frontend in one file: https://zernio-elements.vercel.app/six-lines",
     `- Generative UI: https://zernio-elements.vercel.app/compose and ${base}/agents/generative-ui`,

@@ -208,8 +208,8 @@ describe("auth", () => {
     const handle = createHandler(config());
     expect((await handle(post(), "wrong")).status).toBe(404);
     expect((await handle(post(), "")).status).toBe(404);
-    expect((await handle(post())).status).toBe(401);
     expect((await handle(post({ Authorization: "Bearer nope" }))).status).toBe(401);
+    expect((await createHandler(config(), null)(post())).status).toBe(401);
     expect((await handle(post({ Authorization: `Bearer ${TOKEN}` }))).status).not.toBe(401);
   });
 
@@ -249,6 +249,21 @@ describe("discovery", () => {
       expect(c.text).toMatch(/<html/);
       expect(c._meta?.ui?.csp?.resourceDomains).toContain("https://images.unsplash.com");
     }
+  });
+});
+
+describe("public demo (/mcp without credentials)", () => {
+  it("serves the tools on fixtures and never reaches Zernio, even when the server has a key", async () => {
+    const zernio = fakeZernio();
+    const client = await connect(config({ allowPublish: true }), "https://mcp.test/mcp");
+    const p = await preview(client, { content: LONG, platforms: ["bluesky", "linkedin"] });
+    expect((p as unknown as { mock?: boolean }).mock).toBe(true);
+    const r = await client.callTool({ name: TOOL_NAMES.publish, arguments: roundTrip({ payload: p.payload, payloadHash: p.payloadHash }) });
+    expect(r.isError).toBeFalsy();
+    expect(r.structuredContent).toMatchObject({ mock: true });
+    await client.callTool({ name: TOOL_NAMES.accounts, arguments: {} });
+    await client.callTool({ name: TOOL_NAMES.analytics, arguments: {} });
+    expect(zernio.calls).toHaveLength(0);
   });
 });
 

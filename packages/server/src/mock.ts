@@ -224,6 +224,7 @@ export async function mockResponse(method: string, path: string, body: unknown, 
   if (method === "POST" && path === "/v1/posts") {
     const post = createPost(b);
     posts.unshift(post);
+    posts.length = Math.min(posts.length, 50); // module state on a public endpoint: keep it bounded
     return json({ message: b.publishNow ? "Demo mode: nothing was posted." : "Demo mode: nothing was scheduled.", post, mock: true }, 201);
   }
   const postMatch = path.match(/^\/v1\/posts\/([^/]+)$/);

@@ -1,4 +1,4 @@
-// The endpoint lives at /mcp/<token>; this page only says what the server is. It never shows the token.
+// /mcp is the public demo (fixtures); real accounts use /mcp/<token>. This page never shows the token.
 const DOCS = "https://zernio-elements-docs.vercel.app/agents/mcp-app";
 
 export default function Home() {
@@ -14,8 +14,15 @@ export default function Home() {
         Verified live in Claude. Built on the MCP Apps spec (@modelcontextprotocol/ext-apps), so other MCP Apps hosts (ChatGPT, VS Code,
         Goose) should work but were not tested.
       </p>
+      <p style={{ margin: "0 0 8px" }}>
+        Try it in Claude: Settings → Connectors → Add custom connector, and paste
+      </p>
+      <p style={{ margin: "0 0 12px" }}>
+        <code style={{ fontSize: 14, padding: "2px 6px", background: "#f1f0ec", borderRadius: 4 }}>https://zernio-elements-mcp.vercel.app/mcp</code>
+      </p>
       <p style={{ margin: "0 0 24px", color: "#6b6b68" }}>
-        This endpoint is private: requests need a secret token. To run your own, see the setup guide.
+        The demo runs on sample accounts and data: Publish is simulated and nothing is posted. Real accounts use a private URL
+        with a secret token; to run your own, see the setup guide.
       </p>
       <a href={DOCS} style={{ color: "#111", fontWeight: 600 }}>
         Setup guide

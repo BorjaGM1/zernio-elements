@@ -32,3 +32,11 @@ export function configFromEnv(env: Record<string, string | undefined> = process.
     pollIntervalMs: 1_500,
   };
 }
+
+/**
+ * The public demo served at /mcp without credentials: fixtures only, whatever the environment holds (no key,
+ * so nothing ever reaches Zernio). Publish is "allowed" because the fixtures only simulate it.
+ */
+export function demoConfig(): Config {
+  return { ...configFromEnv({}), allowPublish: true };
+}
