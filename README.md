@@ -15,12 +15,15 @@
 
 ## What it is
 
-One kit for the [Zernio API](https://docs.zernio.com), three surfaces, same logic underneath: a per-platform
-rules engine, a server handler that keeps the Zernio key server-side, and React components. Zernio's MCP lets
-agents post; Elements lets the person see and approve exactly what the agent is about to post, inside the chat.
-The approval widget renders the actual `POST /v1/posts` body, bound by a sha256 hash, not a description written
-by the model. The same code ships as components you embed in your own product, and as a catalog a model can
-compose views from without inventing UI.
+The UI building blocks for the [Zernio API](https://docs.zernio.com). Like shadcn/ui, you install the source
+into your own app and own it. Unlike it, the blocks are opinionated: they already know how every network works.
+There are three: a per-platform rules engine (limits, thread splitting and media rules for 15 networks, counted
+the way Zernio counts), React components and hooks, and a server handler that keeps the Zernio key server-side.
+
+The same blocks go three places. Into an app you already have, as components you restyle with your own tokens.
+Into an agent's chat, as an MCP App: instead of a line of text, the agent answers with a widget that shows the
+post on every network and the actual `POST /v1/posts` body, bound by a sha256 hash, and only the person's click
+publishes. And into views a model composes from a catalog of the same components, without inventing UI.
 
 ## Status and limits
 
