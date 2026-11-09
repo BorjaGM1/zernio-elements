@@ -95,8 +95,8 @@ export function PreviewPost({
 
   return (
     <Shell>
-      <Header title={publish.status === "done" ? publishedTitle(publish.result) : "Review before publishing"} meta={mock ? <Tag tone="warning">Mock data</Tag> : undefined}>
-        {publish.status === "done" ? publishedSummary(publish.result, result.payloadHash) : summary(result)}
+      <Header title={publish.status === "done" ? publishedTitle(publish.result, mock) : "Review before publishing"} meta={mock ? <Tag tone="warning">Mock data</Tag> : undefined}>
+        {publish.status === "done" ? publishedSummary(publish.result, result.payloadHash, mock) : summary(result)}
       </Header>
 
       <div className="flex flex-col border-t border-[var(--ze-border)] sm:flex-row">
@@ -187,19 +187,21 @@ function Clamp({ children, className }: { children: React.ReactNode; className?:
   );
 }
 
-function publishedTitle(r: PublishResult): string {
+/** On fixtures (`mock`) nothing reaches a network, so the result never claims a post is live. */
+export function publishedTitle(r: PublishResult, mock = false): string {
   const ok = r.platforms.filter((p) => !p.error && !/fail|error/i.test(p.status));
   if (!ok.length) return "Publishing failed";
+  if (mock) return "Demo: nothing was posted";
   if (/schedul/i.test(r.status)) return "Scheduled";
   return ok.length === r.platforms.length ? "Published" : "Partly published";
 }
 
-function publishedSummary(r: PublishResult, approvedHash: string | null): string {
+export function publishedSummary(r: PublishResult, approvedHash: string | null, mock = false): string {
   const nameOf = (p: string) => (isPlatformId(p) ? SPECS[p].name : p);
   const failed = r.platforms.filter((p) => p.error || /fail|error/i.test(p.status)).map((p) => nameOf(p.platform));
   const ok = r.platforms.filter((p) => !failed.includes(nameOf(p.platform))).map((p) => nameOf(p.platform));
   const parts: string[] = [];
-  if (ok.length) parts.push(`${/schedul/i.test(r.status) ? "Scheduled on" : "Live on"} ${listJoin(ok)}`);
+  if (ok.length) parts.push(`${mock ? "Would go to" : /schedul/i.test(r.status) ? "Scheduled on" : "Live on"} ${listJoin(ok)}`);
   if (failed.length) parts.push(`${listJoin(failed)} failed`);
   if (approvedHash && r.payloadHash === approvedHash) parts.push(`sha256 ${shortHash(r.payloadHash)} matches what you approved`);
   return parts.join(" · ");

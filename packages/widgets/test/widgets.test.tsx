@@ -4,7 +4,7 @@ import { TOOL_NAMES, hashPayload } from "@zernio-elements/rules";
 import { Analytics } from "../src/analytics/Analytics";
 import { DEMO_INPUT, accountsFixture, analyticsFixture, analyticsSampleFixture, analyticsUnavailableFixture, partialPublishFixture, previewFixture, publishFixture } from "../src/harness/fixtures";
 import { authorFor, defaultTarget, editArgs, orderTargets, outcomeOf, publishArgs, publishLabel, runEdit, runPublish, stateDetail, stateOf, summary } from "../src/preview-post/logic";
-import { PreviewPost } from "../src/preview-post/PreviewPost";
+import { PreviewPost, publishedSummary, publishedTitle } from "../src/preview-post/PreviewPost";
 import { unwrapResult, type HostActions } from "../src/bridge";
 import { parseAccounts, parseAnalytics } from "../src/types";
 
@@ -126,6 +126,16 @@ describe("preview-post: ordering, author, outcome", () => {
     expect(stateDetail(bs, "published")).toBe("Published as @ferment.bsky.social");
     expect(stateOf(li, outcomeOf(out, "linkedin"))).toEqual({ label: "Failed", tone: "danger" });
     expect(outcomeOf(out, "twitter")).toBeUndefined();
+  });
+
+  it("never says a post is live when the server runs on demo data", async () => {
+    const r = await previewFixture();
+    const out = publishFixture(publishArgs(r)!);
+    expect(publishedTitle(out)).toBe("Published");
+    expect(publishedSummary(out, r.payloadHash)).toMatch(/^Live on /);
+    expect(publishedTitle(out, true)).toBe("Demo: nothing was posted");
+    expect(publishedSummary(out, r.payloadHash, true)).toMatch(/^Would go to /);
+    expect(publishedSummary(out, r.payloadHash, true)).not.toContain("Live on");
   });
 });
 
