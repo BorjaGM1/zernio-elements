@@ -101,3 +101,7 @@ pnpm test        # unit tests in every package and app; the rules drift test hit
 pnpm typecheck
 pnpm build
 ```
+
+## License
+
+MIT. See [LICENSE](LICENSE).
